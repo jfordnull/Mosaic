@@ -11,13 +11,15 @@ namespace Mosaic
     public class Board
     {
         private List<List<CellState>> boardPosition = new List<List<CellState>>();
-        private int boardSize;
+        private int boardSize, movesMade;
         private (int,int) playerScores;
+        private bool generalGame;
         public Board() { }
         public void CreateNewBoard(object sender, NewGameEventArgs e)
         {
             ResetBoard();
             boardSize = e.BoardSize;
+            generalGame = e.IsGeneralGame;
             for (int i = 0; i < boardSize; i++)
             {
                 boardPosition.Add(new List<CellState>());
@@ -26,6 +28,7 @@ namespace Mosaic
                     boardPosition[i].Add(CellState.Unclaimed);
                 }
             }
+            GameState.player1Turn = true;
         }
 
         public void TryMove(object sender, MoveAttemptedArgs e)
@@ -41,7 +44,9 @@ namespace Mosaic
                     cell.Content = "X";
                     if(CheckForXOX(cell, out var startIndex, out var endIndex))
                     {
+                        playerScores.Item1 += 1;
                         (sender as BoardView)?.MarkXOX(cell.ActualHeight, startIndex, endIndex, playerScores);
+                        if (!generalGame) {(sender as BoardView)?.HandleVictory(EndConditions.Player1);}
                     }
                     GameState.player1Turn = false;
                 }
@@ -51,9 +56,20 @@ namespace Mosaic
                     cell.Content = "O";
                     if (CheckForXOX(cell, out var startIndex, out var endIndex))
                     {
+                        playerScores.Item2 += 1;
                         (sender as BoardView)?.MarkXOX(cell.ActualHeight, startIndex, endIndex, playerScores);
+                        if (!generalGame){ (sender as BoardView)?.HandleVictory(EndConditions.Player2); }
                     }
                     GameState.player1Turn = true;
+                }
+                movesMade++;
+                if (BoardFull())
+                {
+                    EndConditions endCondition = new EndConditions();
+                    if (playerScores.Item1 > playerScores.Item2) {endCondition = EndConditions.Player1;}
+                    else if (playerScores.Item2 > playerScores.Item1) {endCondition = EndConditions.Player2;}
+                    else {endCondition = EndConditions.Draw;}
+                    (sender as BoardView)?.HandleVictory(endCondition);
                 }
                 (sender as BoardView)?.UpdatePlayerTurnText();
             }
@@ -227,8 +243,18 @@ namespace Mosaic
 
         private void ResetBoard()
         {
+            movesMade = 0;
             playerScores = (0, 0);
             boardPosition.Clear();
+        }
+
+        private bool BoardFull()
+        {
+            if(movesMade >= boardSize * boardSize)
+            {
+                return true;
+            }
+            return false;
         }
     }
 
@@ -237,5 +263,12 @@ namespace Mosaic
         Unclaimed,
         X,
         O
+    }
+
+    public enum EndConditions
+    {
+        Player1,
+        Player2,
+        Draw
     }
 }

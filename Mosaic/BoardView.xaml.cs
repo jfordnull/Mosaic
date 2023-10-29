@@ -46,11 +46,14 @@ namespace Mosaic
             }
             EraseGrid();
             DrawGrid(e.BoardSize);
+            UpdatePlayerTurnText();
+            UpdatePlayerScores((0,0));
         }
 
         public void MarkXOX(double cellSize, (int,int) startIndex, (int,int) endIndex, (int,int) playerScores)
         {
             DrawLine(cellSize, startIndex, endIndex);
+            UpdatePlayerScores(playerScores);
         }
 
         private void DrawGrid(int n)
@@ -77,8 +80,6 @@ namespace Mosaic
                     Grid.SetColumn(cell, j);
                 }
             }
-
-            UpdatePlayerTurnText();
         }
 
         private void EraseGrid()
@@ -118,8 +119,11 @@ namespace Mosaic
 
         private void GameCell_Click(object sender, RoutedEventArgs e) 
         { 
-            Button cell = (Button)sender;
-            MoveAttempted(this, new MoveAttemptedArgs(cell));
+            if (GameState.gameActive)
+            {
+                Button cell = (Button)sender;
+                MoveAttempted(this, new MoveAttemptedArgs(cell));
+            }
         }
 
         private void GameCell_MouseEnter(object sender, MouseEventArgs e)
@@ -127,29 +131,83 @@ namespace Mosaic
 
         }
 
-        public void UpdatePlayerTurnText()
+        public void HandleVictory(EndConditions endCondition)
         {
+            GameState.gameActive = false;
             PlayerTurnText.Inlines.Clear();
-            if (GameState.player1Turn)
+            if (endCondition == EndConditions.Draw)
             {
-                Run run1 = new Run(player1Name);
-                run1.Foreground = player1Brush;
-                PlayerTurnText.Inlines.Add(run1);
+                PlayerTurnText.Text = "It's a tie!";
+                PlayerTurnText.Foreground = Brushes.White;
             }
             else
             {
-                Run run1 = new Run(player2Name);
-                run1.Foreground = player2Brush;
-                PlayerTurnText.Inlines.Add(run1);
+                if (endCondition == EndConditions.Player1)
+                {
+                    Run run1 = new Run(player1Name);
+                    run1.Foreground = player1Brush;
+                    PlayerTurnText.Inlines.Add(run1);
+                }
+                else
+                {
+                    Run run1 = new Run(player2Name);
+                    run1.Foreground = player2Brush;
+                    PlayerTurnText.Inlines.Add(run1);
+                }
+                Run run2 = new Run(" wins!");
+                run2.Foreground = Brushes.White;
+                PlayerTurnText.Inlines.Add(run2);
             }
-            Run run2 = new Run("'s turn to play");
-            run2.Foreground = Brushes.White;
-            PlayerTurnText.Inlines.Add(run2);
         }
 
-        private void UpdatePlayerScores()
+        public void UpdatePlayerTurnText()
         {
+            if (GameState.gameActive)
+            {
+                PlayerTurnText.Inlines.Clear();
+                if (GameState.player1Turn)
+                {
+                    Run run1 = new Run(player1Name);
+                    run1.Foreground = player1Brush;
+                    PlayerTurnText.Inlines.Add(run1);
+                    Run run2 = new Run("'s turn to play (X)");
+                    run2.Foreground = Brushes.White;
+                    PlayerTurnText.Inlines.Add(run2);
+                }
+                else
+                {
+                    Run run1 = new Run(player2Name);
+                    run1.Foreground = player2Brush;
+                    PlayerTurnText.Inlines.Add(run1);
+                    Run run2 = new Run("'s turn to play (O)");
+                    run2.Foreground = Brushes.White;
+                    PlayerTurnText.Inlines.Add(run2);
+                }
+            }
+        }
 
+        private void UpdatePlayerScores((int, int) playerScores)
+        {
+            Player1ScoreText.Inlines.Clear();
+            Player2ScoreText.Inlines.Clear();
+            Run player1Run1 = new Run(player1Name);
+            player1Run1.Foreground = player1Brush;
+            Run player1Run2 = new Run("'s score: ");
+            player1Run2.Foreground = Brushes.White;
+            Run player2Run1 = new Run(player2Name);
+            player2Run1.Foreground = player2Brush;
+            Run player2Run2 = new Run("'s score: ");
+            player2Run2.Foreground = Brushes.White;
+            Run player1RunScore = new Run(playerScores.Item1.ToString());
+            Run player2RunScore = new Run(playerScores.Item2.ToString());
+            player1RunScore.Foreground = player1Brush;
+            player2RunScore.Foreground = player2Brush;
+            Player1ScoreText.Inlines.Add(player1Run1);
+            Player1ScoreText.Inlines.Add(player1Run2);
+            Player1ScoreText.Inlines.Add(player1RunScore);
+            Player2ScoreText.Inlines.Add(player2Run1);
+            Player2ScoreText.Inlines.Add(player2Run2);
+            Player2ScoreText.Inlines.Add(player2RunScore);
         }
     }
 

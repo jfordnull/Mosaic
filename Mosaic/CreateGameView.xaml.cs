@@ -34,7 +34,8 @@ namespace Mosaic
                 HideErrorText();
                 GameState.gameActive = true;
                 bool AIBool = IsAIButton.IsChecked ?? false;
-                NewGameCreated(this, new NewGameEventArgs(n, Player1NameText.Text, Player2NameText.Text, AIBool));
+                bool generalGame = GeneralButton.IsChecked ?? false;
+                NewGameCreated(this, new NewGameEventArgs(n, Player1NameText.Text, Player2NameText.Text, AIBool, generalGame));
             }
             else
             {
@@ -78,13 +79,15 @@ namespace Mosaic
         public string Player1Name { get; }
         public string Player2Name { get; }
         public bool Player2IsAI { get; }
+        public bool IsGeneralGame { get; }
 
-        public NewGameEventArgs(int n, string n1, string n2, bool AI)
+        public NewGameEventArgs(int n, string n1, string n2, bool AI, bool generalGame)
         {
             BoardSize = n;
             Player1Name = n1;
             Player2Name = n2;
             Player2IsAI = AI;
+            IsGeneralGame = generalGame;
         }
     }
 }

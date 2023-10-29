@@ -53,6 +53,12 @@
             <Canvas Name="LineCanvas" HorizontalAlignment="Center" 
                 VerticalAlignment="Center" Height="620" Width="620" 
                 Panel.ZIndex="2"/>
+            <TextBlock Name="Player1ScoreText" HorizontalAlignment="Left"
+                       VerticalAlignment="Bottom" FontFamily="Times New Roman"
+                       FontSize="20" Margin="100,0,0,10" Foreground="White"/>
+            <TextBlock Name="Player2ScoreText" HorizontalAlignment="Right"
+                       VerticalAlignment="Bottom" FontFamily="Times New Roman"
+                       FontSize="20" Margin="0,0,100,10" Foreground="White"/>
         </Grid>
     </Border>
 </Page>
