@@ -10,10 +10,12 @@ namespace Mosaic
 {
     public class Board
     {
-        private List<List<CellState>> boardPosition = new List<List<CellState>>();
-        private int boardSize, movesMade;
+        public List<List<CellState>> boardPosition { get; private set; }
+        public int boardSize { get; private set; }
+        public int movesMade { get; private set; }
+        public bool generalGame { get; private set; }
         private (int,int) playerScores;
-        private bool generalGame;
+
         public Board() { }
         public void CreateNewBoard(object sender, NewGameEventArgs e)
         {
@@ -42,7 +44,7 @@ namespace Mosaic
                 {
                     boardPosition[row][col] = CellState.X;
                     cell.Content = "X";
-                    if(CheckForXOX(cell, out var startIndex, out var endIndex))
+                    if (CheckForXOX((row,col), out var startIndex, out var endIndex))
                     {
                         playerScores.Item1 += 1;
                         (sender as BoardView)?.MarkXOX(cell.ActualHeight, startIndex, endIndex, playerScores);
@@ -54,11 +56,11 @@ namespace Mosaic
                 {
                     boardPosition[row][col] = CellState.O;
                     cell.Content = "O";
-                    if (CheckForXOX(cell, out var startIndex, out var endIndex))
+                    if (CheckForXOX((row,col), out var startIndex, out var endIndex))
                     {
                         playerScores.Item2 += 1;
                         (sender as BoardView)?.MarkXOX(cell.ActualHeight, startIndex, endIndex, playerScores);
-                        if (!generalGame){ (sender as BoardView)?.HandleVictory(EndConditions.Player2); }
+                        if (!generalGame){ (sender as BoardView)?.HandleVictory(EndConditions.Player2);}
                     }
                     GameState.player1Turn = true;
                 }
@@ -75,10 +77,10 @@ namespace Mosaic
             }
         }
 
-        private bool CheckForXOX(Button cell, out (int, int) startIndex, out (int, int) endIndex)
+        public bool CheckForXOX((int,int) cellIndex, out (int, int) startIndex, out (int, int) endIndex)
         {
-            var row = Grid.GetRow(cell);
-            var col = Grid.GetColumn(cell);
+            var row = cellIndex.Item1;
+            var col = cellIndex.Item2;
             if (GameState.player1Turn)
             {
                 //[S][][]
@@ -243,9 +245,9 @@ namespace Mosaic
 
         private void ResetBoard()
         {
+            boardPosition = new List<List<CellState>>();
             movesMade = 0;
             playerScores = (0, 0);
-            boardPosition.Clear();
         }
 
         private bool BoardFull()
