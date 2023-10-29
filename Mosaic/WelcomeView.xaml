@@ -1,0 +1,21 @@
+﻿<Page x:Class="Mosaic.WelcomeView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Mosaic"
+      mc:Ignorable="d" 
+      d:DesignHeight="700" d:DesignWidth="700"
+      Title="WelcomeView">
+
+    <Grid>
+        <TextBlock Foreground="Black" HorizontalAlignment="Center"
+                   VerticalAlignment="Center" FontSize="20" 
+                   TextAlignment="Center" FontFamily="Times New Roman">
+            Welcome to Mosaic!
+            <LineBreak/>
+            <LineBreak/>
+            Hover over NEW GAME to get started.
+        </TextBlock>
+    </Grid>
+</Page>
