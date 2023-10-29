@@ -66,6 +66,7 @@ namespace Mosaic
         {
             ContentView.Navigate(settingsView);
         }
+
         private void PlayButton_Highlight(Button playButton)
         {
             playButton.Background = Brushes.Black;

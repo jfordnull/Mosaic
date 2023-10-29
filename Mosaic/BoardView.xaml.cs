@@ -20,6 +20,9 @@ namespace Mosaic
         public const double BoardSizePixels = 620.0;
         private string player1Name, player2Name, player1ColorHex, player2ColorHex;
         private SolidColorBrush player1Brush, player2Brush;
+
+        public delegate void MoveAttemptHandler(object sender, MoveAttemptedArgs e);
+        public event MoveAttemptHandler MoveAttempted;
         public BoardView()
         {
             InitializeComponent();
@@ -41,7 +44,13 @@ namespace Mosaic
             {
                 player2Name = e.Player2Name;
             }
+            EraseGrid();
             DrawGrid(e.BoardSize);
+        }
+
+        public void MarkXOX(double cellSize, (int,int) startIndex, (int,int) endIndex, (int,int) playerScores)
+        {
+            DrawLine(cellSize, startIndex, endIndex);
         }
 
         private void DrawGrid(int n)
@@ -72,9 +81,45 @@ namespace Mosaic
             UpdatePlayerTurnText();
         }
 
+        private void EraseGrid()
+        {
+            GameGrid.Children.Clear();
+            GameGrid.RowDefinitions.Clear();
+            GameGrid.ColumnDefinitions.Clear();
+            LineCanvas.Children.Clear();
+        }
+
+        private void DrawLine(double cellSize, (int,int) startIndex, (int,int) endIndex)
+        {
+            int startRow = startIndex.Item1;
+            int startCol = startIndex.Item2;
+            int endRow = endIndex.Item1;
+            int endCol = endIndex.Item2;
+            SolidColorBrush lineColor = new SolidColorBrush();
+            if (GameState.player1Turn) {lineColor = player1Brush;}
+            else {lineColor = player2Brush;}
+
+            Line line = new Line
+            {
+                Stroke = lineColor,
+                StrokeThickness = 2
+            };
+
+            Point startPoint = new Point(startCol * cellSize + cellSize / 2, startRow * cellSize + cellSize / 2);
+            Point endPoint = new Point(endCol * cellSize + cellSize / 2, endRow * cellSize + cellSize / 2);
+
+            line.X1 = startPoint.X;
+            line.Y1 = startPoint.Y;
+            line.X2 = endPoint.X;
+            line.Y2 = endPoint.Y;
+
+            LineCanvas.Children.Add(line);
+        }
+
         private void GameCell_Click(object sender, RoutedEventArgs e) 
         { 
-
+            Button cell = (Button)sender;
+            MoveAttempted(this, new MoveAttemptedArgs(cell));
         }
 
         private void GameCell_MouseEnter(object sender, MouseEventArgs e)
@@ -82,7 +127,7 @@ namespace Mosaic
 
         }
 
-        private void UpdatePlayerTurnText()
+        public void UpdatePlayerTurnText()
         {
             PlayerTurnText.Inlines.Clear();
             if (GameState.player1Turn)
@@ -100,6 +145,20 @@ namespace Mosaic
             Run run2 = new Run("'s turn to play");
             run2.Foreground = Brushes.White;
             PlayerTurnText.Inlines.Add(run2);
+        }
+
+        private void UpdatePlayerScores()
+        {
+
+        }
+    }
+
+    public class MoveAttemptedArgs : EventArgs
+    {
+        public Button Cell { get; }
+        public MoveAttemptedArgs(Button cell)
+        {
+            Cell = cell;
         }
     }
 }

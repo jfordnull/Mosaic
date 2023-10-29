@@ -10,6 +10,8 @@
     <Page.Resources>
         <Style x:Key="GridCellStyle" TargetType="Button">
             <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="FontFamily" Value="Times New Roman"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">

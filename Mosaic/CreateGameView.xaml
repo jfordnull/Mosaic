@@ -61,7 +61,7 @@
                    VerticalAlignment="Center" FontFamily="Times New Roman"
                    FontSize="20" Grid.Column="1" Grid.Row="4"/>
         <TextBlock Text="(3 - 32)" HorizontalAlignment="Center" VerticalAlignment="Center"
-                   Grid.Column="2" Grid.Row="1" Margin="0,40,0,0"/>
+                   Grid.Column="2" Grid.Row="1" Margin="0,40,0,0" FontFamily="Times New Roman"/>
         <StackPanel Grid.Row="2" Grid.Column="2" Width="60" Height="30">
             <RadioButton Name="SimpleButton" Content="Simple" FontFamily="Times New Roman"/>
             <RadioButton Name="GeneralButton" Content="General" FontFamily="Times New Roman"/>
@@ -73,7 +73,7 @@
                  Width="125" Grid.Column="2" Grid.Row="3" FontFamily="Times New Roman"/>
         <TextBox Name="Player2NameText" HorizontalAlignment="Center" VerticalAlignment="Center"
                  Width="125" Grid.Column="2" Grid.Row="4" FontFamily="Times New Roman"/>
-        <Button Name="NewGameBUtton" HorizontalAlignment="Center" VerticalAlignment="Center"
+        <Button Name="NewGameButton" HorizontalAlignment="Center" VerticalAlignment="Center"
                 Width="100" Height="25" Grid.Column="2" Grid.Row="5" FontFamily="Times New Roman"
                 Style="{StaticResource NewGameStyle}" Content="New Game" Click="NewGameButton_Click"/>
         <CheckBox Grid.Column="2" Grid.Row="4" HorizontalAlignment="Center" 
