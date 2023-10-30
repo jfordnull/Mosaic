@@ -41,7 +41,7 @@ namespace MosaicTesting
         }
 
         [TestMethod]
-        public void TestXOX_MakeOMove()
+        public void TestXOX_MakeOMove_Simple()
         {
             (int, int) testCell = (2, 2);
 
@@ -62,7 +62,7 @@ namespace MosaicTesting
         }
 
         [TestMethod]
-        public void TestXOX_MakeXMove()
+        public void TestXOX_MakeXMove_Simple()
         {
             (int, int) testCell = (0, 0);
 
@@ -80,5 +80,52 @@ namespace MosaicTesting
             Assert.AreEqual(endIndex, (2, 2),
                 "Ending index of line to be drawn should be two cells away from cell where move was made");
         }
+
+        [TestMethod]
+        public void TestXOX_MakeOMove_General()
+        {
+            (int, int) testCell = (2, 2);
+
+            Board board = new Board();
+            NewGameEventArgs args = new NewGameEventArgs(5, "Jacob", "Watson", false, true);
+            board.CreateNewBoard(this, args);
+
+            board.boardPosition[1][2] = CellState.X;
+            board.boardPosition[3][2] = CellState.X;
+            GameState.player1Turn = false;
+
+            Assert.IsTrue(board.CheckForXOX(testCell, out (int, int) startIndex, out (int, int) endIndex),
+                "Should be XOX, but match was not found");
+            Assert.AreEqual(startIndex, (1, 2),
+                "Starting index of the line to be drawn should be above the cell where move was made");
+            Assert.AreEqual(endIndex, (3, 2),
+                "Ending index of the line  to be draw should be below the cell where move was made");
+        }
+
+        [TestMethod]
+        public void TestXOX_MakeXMove_General()
+        {
+            (int, int) testCell = (0, 0);
+
+            Board board = new Board();
+            NewGameEventArgs args = new NewGameEventArgs(5, "Jacob", "Watson", false, true);
+            board.CreateNewBoard(this, args);
+
+            board.boardPosition[1][1] = CellState.O;
+            board.boardPosition[2][2] = CellState.X;
+
+            Assert.IsTrue(board.CheckForXOX(testCell, out (int, int) startIndex, out (int, int) endIndex),
+                "Should be XOX, but match was not found");
+            Assert.AreEqual(startIndex, (0, 0),
+                "Starting index of line to be drawn should be cell where move was made");
+            Assert.AreEqual(endIndex, (2, 2),
+                "Ending index of line to be drawn should be two cells away from cell where move was made");
+        }
+
+        [TestMethod]
+        public void TestVictory_Simple() { }
+
+        [TestMethod]
+        public void TestVictory_General() { }
     }
 }
