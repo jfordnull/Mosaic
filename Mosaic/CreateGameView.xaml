@@ -76,9 +76,12 @@
         <Button Name="NewGameButton" HorizontalAlignment="Center" VerticalAlignment="Center"
                 Width="100" Height="25" Grid.Column="2" Grid.Row="5" FontFamily="Times New Roman"
                 Style="{StaticResource NewGameStyle}" Content="New Game" Click="NewGameButton_Click"/>
+        <CheckBox Grid.Column="2" Grid.Row="3" HorizontalAlignment="Center"
+                  VerticalAlignment="Center" Content="AI?" Margin="0,40,0,0"
+                  Name="Player1IsAIButton"/>
         <CheckBox Grid.Column="2" Grid.Row="4" HorizontalAlignment="Center" 
                   VerticalAlignment="Center" Content="AI?" Margin="0,40,0,0"
-                  Name="IsAIButton"/>
+                  Name="Player2IsAIButton"/>
         <TextBlock Name="BoardSizeError" Text="Enter a valid board size from 3 - 32." 
                    FontStyle="Italic" FontFamily="Times New Roman" Grid.Row="1" Grid.Column="1" 
                    VerticalAlignment="Center" Margin="0,40,0,0" Foreground="Red"

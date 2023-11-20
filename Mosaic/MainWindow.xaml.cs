@@ -37,14 +37,15 @@ namespace Mosaic
         {
             Button playButton = (Button)sender;
             PlayButton_Highlight(playButton);
-            if (GameState.gameActive)
-            {
-                ContentView.Navigate(boardView);
-            }
-            else
-            {
-                ContentView.Navigate(welcomeView);
-            }
+            //if (GameState.gameActive)
+            //{
+            //    ContentView.Navigate(boardView);
+            //}
+            //else
+            //{
+            //    ContentView.Navigate(welcomeView);
+            //}
+            ContentView.Navigate(boardView);
         }
 
         private void PlayButton_MouseLeave(object sender, MouseEventArgs e)

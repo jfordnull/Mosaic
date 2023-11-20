@@ -17,13 +17,15 @@ namespace Mosaic
             BoardView boardView = new BoardView();
             SettingsView settingsView = new SettingsView();
             CreateGameView createGameView = new CreateGameView();
-            Board board = new Board();
+            Board board = new Board(boardView);
+            AIOpponent ai = new AIOpponent();
             MainWindow window = new MainWindow(boardView, settingsView, createGameView);
             window.Show();
 
             createGameView.NewGameCreated += boardView.StartNewGame;
             createGameView.NewGameCreated += board.CreateNewBoard;
             boardView.MoveAttempted += board.TryMove;
+            board.AIMoveMade += ai.AIMoveAttempt;
         }
     }
 }

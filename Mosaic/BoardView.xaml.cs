@@ -186,6 +186,13 @@ namespace Mosaic
             }
         }
 
+        public void UpdateCellContent((int, int) cellIndex)
+        {
+            Button cell = (Button)GameGrid.Children.Cast<UIElement>().First(e=>Grid.GetRow(e) == cellIndex.Item1 && Grid.GetColumn(e) == cellIndex.Item2);
+            if (GameState.player1Turn) { cell.Content = "X"; }
+            else { cell.Content = "O"; }
+        }
+
         private void UpdatePlayerScores((int, int) playerScores)
         {
             Player1ScoreText.Inlines.Clear();
