@@ -13,7 +13,7 @@ namespace MosaicTesting
             GameState.testing = true;
             Board board = new Board();
 
-            NewGameEventArgs args = new NewGameEventArgs(9, "Jacob", "Watson", false, false, true);
+            NewGameEventArgs args = new NewGameEventArgs(9, "Jacob", "Watson", false, false, true, "Example");
 
             board.CreateNewBoard(this, args);
 
@@ -31,7 +31,7 @@ namespace MosaicTesting
             GameState.testing = true;
             Board board = new Board();
 
-            NewGameEventArgs args = new NewGameEventArgs(16, "Jacob", "Watson", false, false, false);
+            NewGameEventArgs args = new NewGameEventArgs(16, "Jacob", "Watson", false, false, false, "Example");
 
             board.CreateNewBoard(this, args);
 
@@ -49,7 +49,7 @@ namespace MosaicTesting
             GameState.testing = true;
             (int, int) testCell = (2, 2);
             Board board = new Board();
-            NewGameEventArgs args = new NewGameEventArgs(5, "Jacob", "Watson", false, false, true);
+            NewGameEventArgs args = new NewGameEventArgs(5, "Jacob", "Watson", false, false, true, "Example");
             board.CreateNewBoard(this, args);
 
             board.boardPosition[1][2] = CellState.X;
@@ -70,7 +70,7 @@ namespace MosaicTesting
             GameState.testing = true;
             (int, int) testCell = (0, 0);
             Board board = new Board();
-            NewGameEventArgs args = new NewGameEventArgs(5, "Jacob", "Watson", false, false, true);
+            NewGameEventArgs args = new NewGameEventArgs(5, "Jacob", "Watson", false, false, true, "Example");
             board.CreateNewBoard(this, args);
 
             board.boardPosition[1][1] = CellState.O;
@@ -91,7 +91,7 @@ namespace MosaicTesting
             (int, int) testCell = (2, 2);
 
             Board board = new Board();
-            NewGameEventArgs args = new NewGameEventArgs(5, "Jacob", "Watson", false, false, true);
+            NewGameEventArgs args = new NewGameEventArgs(5, "Jacob", "Watson", false, false, true, "Example");
             board.CreateNewBoard(this, args);
 
             board.boardPosition[1][2] = CellState.X;
@@ -113,7 +113,7 @@ namespace MosaicTesting
             (int, int) testCell = (0, 0);
 
             Board board = new Board();
-            NewGameEventArgs args = new NewGameEventArgs(5, "Jacob", "Watson", false, false, true);
+            NewGameEventArgs args = new NewGameEventArgs(5, "Jacob", "Watson", false, false, true, "Example");
             board.CreateNewBoard(this, args);
 
             board.boardPosition[1][1] = CellState.O;

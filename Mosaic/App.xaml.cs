@@ -20,12 +20,15 @@ namespace Mosaic
             Board board = new Board(boardView);
             AIOpponent ai = new AIOpponent();
             MainWindow window = new MainWindow(boardView, settingsView, createGameView);
+            MoveTracker moveTracker = new MoveTracker();
             window.Show();
 
             createGameView.NewGameCreated += boardView.StartNewGame;
+            createGameView.NewGameCreated += moveTracker.NewGameFileCreated;
             createGameView.NewGameCreated += board.CreateNewBoard;
             boardView.MoveAttempted += board.TryMove;
             board.AIMoveMade += ai.AIMoveAttempt;
+            board.RecordMoveMade += moveTracker.RecordMoveMade;
         }
     }
 }

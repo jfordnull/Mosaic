@@ -62,6 +62,11 @@
                    FontSize="20" Grid.Column="1" Grid.Row="4"/>
         <TextBlock Text="(3 - 32)" HorizontalAlignment="Center" VerticalAlignment="Center"
                    Grid.Column="2" Grid.Row="1" Margin="0,40,0,0" FontFamily="Times New Roman"/>
+        <TextBlock Text="Match Name:" HorizontalAlignment="Left" VerticalAlignment="Center"
+                   Grid.Column="1" Grid.Row="5" FontFamily="Times New Roman"/>
+        <TextBox Grid.Row="5" Grid.Column="1" Width="100" HorizontalAlignment="Left"
+                 VerticalAlignment="Center" Name="MatchFileName" Margin="0,40,0,0"
+                 FontFamily="Times New Roman"/>
         <StackPanel Grid.Row="2" Grid.Column="2" Width="60" Height="30">
             <RadioButton Name="SimpleButton" Content="Simple" FontFamily="Times New Roman"/>
             <RadioButton Name="GeneralButton" Content="General" FontFamily="Times New Roman"/>

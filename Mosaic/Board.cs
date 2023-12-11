@@ -17,6 +17,8 @@ namespace Mosaic
 
         public delegate void AIMoveEventHandler(object sender, AIMoveEventArgs e);
         public event AIMoveEventHandler AIMoveMade;
+        public delegate void RecordMoveEventHandler(object sender, MoveRecordEventArgs e);
+        public event RecordMoveEventHandler RecordMoveMade;
         public int boardSize { get; private set; }
         public int movesMade { get; private set; }
         public bool generalGame { get; private set; }
@@ -68,6 +70,7 @@ namespace Mosaic
                 if (GameState.player1Turn && !player1IsAI)
                 {
                     boardPosition[row][col] = CellState.X;
+                    RecordMoveMade(this, new MoveRecordEventArgs((row, col)));
                     cell.Content = "X";
                     XOXMatches = CheckForXOX((row, col));
                     if (XOXMatches.Count > 0)
@@ -85,6 +88,7 @@ namespace Mosaic
                 else if (!player2IsAI)
                 {
                     boardPosition[row][col] = CellState.O;
+                    RecordMoveMade(this, new MoveRecordEventArgs((row, col)));
                     cell.Content = "O";
                     XOXMatches = CheckForXOX((row, col));
                     if (XOXMatches.Count > 0)
@@ -140,6 +144,7 @@ namespace Mosaic
         {
             aiMatches = matches;
             indexToMarkAIMove = moveIndex;
+            RecordMoveMade(this, new MoveRecordEventArgs(moveIndex));
         }
 
         private void HandleAIGame()
@@ -387,5 +392,15 @@ public class AIMoveEventArgs : EventArgs
     public AIMoveEventArgs(List<List<CellState>> board) 
     { 
         BoardPosition = board;
+    }
+}
+
+public class MoveRecordEventArgs : EventArgs
+{
+    public (int, int) moveIndex { get; }
+
+    public MoveRecordEventArgs((int, int) moveIndex)
+    {
+        this.moveIndex = moveIndex;
     }
 }

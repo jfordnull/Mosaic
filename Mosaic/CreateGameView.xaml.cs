@@ -36,7 +36,8 @@ namespace Mosaic
                 bool player1AI = Player1IsAIButton.IsChecked ?? false;
                 bool player2AI = Player2IsAIButton.IsChecked ?? false;
                 bool generalGame = GeneralButton.IsChecked ?? false;
-                NewGameCreated(this, new NewGameEventArgs(n, Player1NameText.Text, Player2NameText.Text, player1AI, player2AI, generalGame));
+                string matchFileName = MatchFileName.Text;
+                NewGameCreated(this, new NewGameEventArgs(n, Player1NameText.Text, Player2NameText.Text, player1AI, player2AI, generalGame, matchFileName));
             }
             else
             {
@@ -83,8 +84,9 @@ namespace Mosaic
         public bool Player1IsAI { get; }
         public bool Player2IsAI { get; }
         public bool IsGeneralGame { get; }
+        public string MatchFileName { get; }
 
-        public NewGameEventArgs(int n, string n1, string n2, bool player1AI, bool player2AI, bool generalGame)
+        public NewGameEventArgs(int n, string n1, string n2, bool player1AI, bool player2AI, bool generalGame, string matchFileName)
         {
             BoardSize = n;
             Player1Name = n1;
@@ -92,6 +94,7 @@ namespace Mosaic
             Player1IsAI = player1AI;
             Player2IsAI = player2AI;
             IsGeneralGame = generalGame;
+            MatchFileName = matchFileName;
         }
     }
 }
